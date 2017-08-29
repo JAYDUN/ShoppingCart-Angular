@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="chrome=1">
+    <title>My Shopping Cart</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="index.css">
+    <!--<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">-->
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="shoppingCart">
+    <div id="shortcut-2014">
+        <div class="w">
+            <ul class="fl">
+                <li id="ttbar-home">
+                    <i class="iconfont"></i>
+                    <a>JD</a>
+                </li>
+                <li id="ttbar-mycity" class="dropdown">
+                    <div class="dt cw-icon ui-areamini-text-wrap">
+                        <i class="iconfont"></i>
+                        <span class="ui-areamini-text">vancouver</span>
+                    </div>
+                </li>
+            </ul>
+            <ul class="fr">
+                <li class="fore1" id="ttbar-login">
+                    <a class="link-login">Log In</a>
+                    &nbsp;&nbsp;
+                    <a class="link-regist style-red">Sign Up</a>
+                </li>
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>My Order</a>
+                    </div>
+                </li>
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>My JD</a>
+                    </div>
+                </li>
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>JD VIP</a>
+                    </div>
+                </li>
+                <li class="spacer"></li>
+                <!--<li class="fore2">-->
+                    <!--<div class="dt">-->
+                        <!--<a>企业采购</a>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>Customer Service</a>
+                    </div>
+                </li>
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>Nav</a>
+                    </div>
+                </li>
+                <li class="spacer"></li>
+                <li class="fore2">
+                    <div class="dt">
+                        <a>JD Mobile</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="w w1 header clearfix">
+        <div id="logo-2014">
+            <a class="logo"></a>
+            <a class="link2">
+                <b></b>
+            </a>
+        </div>
+        <div class="cart-search">
+            <div class="form">
+                <input id="key" type="text" class="itxt" placeholder="">
+                <input type="button" class="button" value="Search">
+            </div>
+        </div>
+    </div>
+    <div id="container" class="cart">
+        <div class="w none" ng-if="cartState.isEmpty" >
+            <div class="cart-empty" >
+                <div class="message">
+                    <ul>
+                        <li class="txt">
+                            Your shopping cart is empty!
+                        </li>
+                        <li>
+                            <a class="btn-1 login-btn mr10">Login</a>
+                            <a class="ftx-05">Go Shopping</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="w clearfix mg-20" ng-if="!cartState.isEmpty" >
+           <div class="cart-filter-bar">
+                <ul class="switch-cart">
+                    <li class="switch-cart-item curr">
+                        <a>
+                            <em>All Items</em>
+                        </a>
+
+                    </li>
+                </ul>
+           </div>
+            <div id="jd-cart">
+                <div class="cart-main cart-main-new">
+                    <div class="cart-thead">
+                        <div class="column t-checkbox">
+                            <div class="cart-checkbox">
+                                <input name="checkbox" type="checkbox" class="jdcheckbox"  ng-checked="allCheck()" ng-click="selectAll($event.target)">
+                                <label class="checked">勾选全部商品</label>
+                                Check All
+                            </div>
+                        </div>
+                        <div class="column t-goods">
+                            Products
+                        </div>
+                        <div class="column t-props">
+
+                        </div>
+                        <div class="column t-price">
+                            Price
+                        </div>
+                        <div class="column t-quantity">
+                            Quantity
+                        </div>
+                        <div class="column t-sum">
+                            Price
+                        </div>
+                        <div class="column t-action">
+                            Action
+                        </div>
+                    </div>
+                    <div class="cart-item-list">
+                        <div class="cart-tbody">
+                            <div class="item-list">
+                                <div ng-repeat="item in cartList" class="item-give item-full " >
+                                    <div class=" item-last item-item item-selected  ">
+                                        <div class="item-form">
+                                            <div class="cell p-checkbox">
+                                                <div class="cart-checkbox">
+                                                    <input name="checkbox" type="checkbox" class="jdcheckbox"ng-model="item.checked" ng-click="itemSelect($index)" >
+                                                    <label class="checked">勾选商品</label>
+                                                    <span class="line-circle"></span>
+                                                </div>
+                                            </div>
+                                            <div class="cell p-goods">
+                                                <div class="goods-item">
+                                                    <div class="p-img">
+                                                        <a>
+                                                            <img ng-src="{{item.img}}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-msg">
+                                                        <div class="p-name">
+                                                            <a>
+                                                                {{item.name}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cell p-props p-props-new">
+
+                                            </div>
+                                            <div class="cell p-price">
+                                                <strong>${{item.price}}</strong>
+                                            </div>
+                                            <div class="cell p-quantity">
+                                                <div class="quantity-form">
+                                                    <a class="decrement" ng-click="decrease($event,$index)">-</a>
+                                                    <input autocomplete="off" class="itxt" type="text" value="{{item.quantity}}" disabled>
+                                                    <a class="increment" ng-click="increase($event,$index)">+</a>
+                                                </div>
+                                            </div>
+                                            <div class="cell p-sum">
+                                                <strong>${{item.totalPrice}}</strong>
+                                            </div>
+                                            <div class="cell p-ops" ng-click="itemRemove($index)">
+                                                <a>Delete</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <div id="cart-floatbar">
+            <div class="ui-ceilinglamp-1">
+                <div class="cart-toolbar">
+                    <div class="toolbar-wrap">
+                        <div class="options-box">
+                            <div class="select-all">
+                                <div class="cart-checkbox">
+                                    <input name="checkbox" type="checkbox" class="jdcheckbox" ng-checked="allCheck()" ng-click="selectAll($event.target)">
+                                    <label class="checked">勾选全部商品</label>
+                                </div>
+                                Select All
+                            </div>
+                            <!--<div class="operation">-->
+                                <!--<a>删除选中的产品</a>-->
+                                <!--<a>移到我的关注</a>-->
+                                <!--<a>清除下柜商品</a>-->
+                            <!--</div>-->
+                            <div class="clr"></div>
+                            <div class="toolbar-right">
+                                <div class="normal">
+                                    <div class="comm-right">
+                                        <div class="btn-area">
+                                            <a class="submit-btn">
+                                               CheckOut
+                                                <!--<b></b>-->
+                                            </a>
+                                        </div>
+                                        <div class="price-sum">
+                                            <div>
+                                                <span class="txt txt-new">Sum：</span>
+                                                <span class="price sumPrice">
+                                                        <em ng-bind="totalPrice()"></em>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="amount-sum">
+                                             <em ng-bind="totalQuantity()"></em> Products
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+
+
+        </div>
+        <div class="w">
+            <div class="m m1" id="c-tabs-new">
+                <div class="mt">
+                    <div class="extra-l">
+                        <a class="c-item curr">Popular</a>
+                        <!--<a class="c-item">随手购</a>-->
+                        <!--<a class="c-item">我的关注</a>-->
+                        <!--<a class="c-item">最近浏览</a>-->
+                    </div>
+                </div>
+                <div class="mc c-panel-main" style="position: relative">
+                    <div class="c-panel ui-switchable-panel-selected" id="guess-products" style="z-index: 1; opacity: 1; position: absolute;">
+                        <div class="goods-list-tab">
+                            <a class="s-item curr"></a>
+                            <a class="s-item "></a>
+                            <a class="s-item"></a>
+                        </div>
+                        <div class="mc c-panel-main" style="position:relative">
+                            <div class="goods-list c-panel ui-switchable-panel-selected" style="position: absolute; z-index: 1; opacity: 1;">
+                                <ul>
+                                    <li>
+                                        <div class="item">
+                                            <div class="p-img">
+                                                <a>
+                                                    <img class="p-img-d" src="./img/upanel.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="p-name">
+                                                <a class="p-name-d">360 WiFi3 300M MiniWiFi Black</a>
+                                            </div>
+                                            <div class="p-price">
+                                                <strong>
+                                                    <em>$</em>
+                                                    <i>24.80</i>
+                                                </strong>
+                                            </div>
+                                            <div class="p-btn" data="1" ng-click="cartAdd($event)">
+                                                <a class="btn-append" >
+                                                    <b></b>
+                                                    Add to Cart
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="p-img">
+                                                <a>
+                                                    <img src="./img/upa.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="p-name">
+                                                <a>Kingston 32GB 80MB/s TF(Micro SD)Class10 UHS-I  </a>
+                                            </div>
+                                            <div class="p-price">
+                                                <strong>
+                                                    <em>$</em>
+                                                    <i>99.00</i>
+                                                </strong>
+                                            </div>
+                                            <div class="p-btn" ng-click="cartAdd($event)">
+                                                <a class="btn-append">
+                                                    <b></b>
+                                                    Add to Cart
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="p-img">
+                                                <a>
+                                                    <img src="./img/rice.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="p-name">
+                                                <a>Rice 5kg</a>
+                                            </div>
+                                            <div class="p-price">
+                                                <strong>
+                                                    <em>$</em>
+                                                    <i>27.80</i>
+                                                </strong>
+                                            </div>
+                                            <div class="p-btn" ng-click="cartAdd($event)">
+                                                <a class="btn-append">
+                                                    <b></b>
+                                                    Add to Cart
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="p-img">
+                                                <a>
+                                                    <img src="./img/wd.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="p-name">
+                                                <a>WD 1TB SATA6Gb/s 7200RAM 64M WD10EZEX</a>
+                                            </div>
+                                            <div class="p-price">
+                                                <strong>
+                                                    <em>$</em>
+                                                    <i>324.80</i>
+                                                </strong>
+                                            </div>
+                                            <div class="p-btn" ng-click="cartAdd($event)">
+                                                <a class="btn-append">
+                                                    <b></b>
+                                                    Add to Cart
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="c-panel ui-switchable-panel-selected" id="walkBuy-products" style="z-index: 1; opacity: 1; position: absolute;">-->
+                        <!--<div class="goods-list-tab">-->
+                            <!--<a class="s-item curr"></a>-->
+                            <!--<a class="s-item "></a>-->
+                            <!--<a class="s-item"></a>-->
+                        <!--</div>-->
+                        <!--<div class="mc c-panel-main" style="position:relative">-->
+                            <!--<div class="goods-list c-panel ui-switchable-panel-selected" style="position: absolute; z-index: 1; opacity: 1;">-->
+                                <!--<ul>-->
+                                    <!--<li>-->
+                                        <!--<div class="item">-->
+                                            <!--<div class="p-img">-->
+                                                <!--<a>-->
+                                                    <!--<img src="./img/upanel.jpg">-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-name">-->
+                                                <!--<a>360随身WiFi3 300M 无线网卡 迷你路由器 黑色</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-price">-->
+                                                <!--<strong>-->
+                                                    <!--<em>￥</em>-->
+                                                    <!--<i>24.80</i>-->
+                                                <!--</strong>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-btn">-->
+                                                <!--<a class="btn-append">-->
+                                                    <!--<b></b>-->
+                                                    <!--加入购物车-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="item">-->
+                                            <!--<div class="p-img">-->
+                                                <!--<a>-->
+                                                    <!--<img src="./img/upa.jpg">-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-name">-->
+                                                <!--<a>金士顿（Kingston）32GB 80MB/s TF(Micro SD)Class10 UHS-I高速存储卡  </a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-price">-->
+                                                <!--<strong>-->
+                                                    <!--<em>￥</em>-->
+                                                    <!--<i>99.00</i>-->
+                                                <!--</strong>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-btn">-->
+                                                <!--<a class="btn-append">-->
+                                                    <!--<b></b>-->
+                                                    <!--加入购物车-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="item">-->
+                                            <!--<div class="p-img">-->
+                                                <!--<a>-->
+                                                    <!--<img src="./img/rice.jpg">-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-name">-->
+                                                <!--<a>【京东超市】福临门 东北大米 水晶米 中粮出品 大米5kg</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-price">-->
+                                                <!--<strong>-->
+                                                    <!--<em>￥</em>-->
+                                                    <!--<i>27.80</i>-->
+                                                <!--</strong>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-btn">-->
+                                                <!--<a class="btn-append">-->
+                                                    <!--<b></b>-->
+                                                    <!--加入购物车-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="item">-->
+                                            <!--<div class="p-img">-->
+                                                <!--<a>-->
+                                                    <!--<img src="./img/wd.jpg">-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-name">-->
+                                                <!--<a>西部数据(WD)蓝盘 1TB SATA6Gb/s 7200转64M 台式机硬盘(WD10EZEX)</a>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-price">-->
+                                                <!--<strong>-->
+                                                    <!--<em>￥</em>-->
+                                                    <!--<i>324.80</i>-->
+                                                <!--</strong>-->
+                                            <!--</div>-->
+                                            <!--<div class="p-btn">-->
+                                                <!--<a class="btn-append">-->
+                                                    <!--<b></b>-->
+                                                    <!--加入购物车-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
