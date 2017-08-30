@@ -21,16 +21,16 @@ angular.module('app',[])
         $scope.cartList.push(item);
         $scope.cartState.isEmpty=false;
         // console.log( $scope.cartList);
-    }
+    };
     //decrease item quantities
     $scope.decrease=function($event,$index){
         var index= $scope.cartList[$index];
         if($event.currentTarget.parentNode.children[1].value>1){
             index.quantity--;
-            index.totalPrice= index.quantity * index.price;
+            // index.totalPrice= index.quantity * index.price;
             index.totalPrice= Number((index.quantity * index.price).toFixed(2));
         }
-    }
+    };
     //increase item quantities
     $scope.increase=function($event,$index){
             // $event.currentTarget.parentNode.children[1].value++;
@@ -39,30 +39,41 @@ angular.module('app',[])
             index.totalPrice= Number((index.quantity * index.price).toFixed(2));
 
 
-    }
+    };
     //totalQuantity
     $scope.totalQuantity=function(){
         var totalQuantity = 0;
-        for(i = 0; i<$scope.cartList.length;i++){
-            if($scope.cartList[i].checked==true){
-
-                totalQuantity+=$scope.cartList[i].quantity;
+        // for(i = 0; i<$scope.cartList.length;i++){
+        //     if($scope.cartList[i].checked==true){
+        //
+        //         totalQuantity+=$scope.cartList[i].quantity;
+        //     }
+        // }
+        $scope.cartList.map(function (item) {
+            if(item.checked==true){
+                totalQuantity+=item.quantity;
             }
-        }
+        });
+
         return totalQuantity;
-    }
+    };
     //totalPrice
     $scope.totalPrice=function(){
         var totalPrice= 0;
-        for(i = 0; i<$scope.cartList.length;i++){
-            if($scope.cartList[i].checked==true){
-                // console.log(typeof $scope.cartList[i].totalPrice);
-                totalPrice+=$scope.cartList[i].totalPrice;
+        // for(i = 0; i<$scope.cartList.length;i++){
+        //     if($scope.cartList[i].checked==true){
+        //         // console.log(typeof $scope.cartList[i].totalPrice);
+        //         totalPrice+=$scope.cartList[i].totalPrice;
+        //     }
+        // }
+        $scope.cartList.map(function (item) {
+            if(item.checked==true){
+                totalPrice+=item.totalPrice;
             }
-        }
+        });
 
         return totalPrice.toFixed(2);
-    }
+    };
     //delete item
     $scope.itemRemove=function ($index) {
         if(confirm("Are you sure you want to delete this item?")){
@@ -71,22 +82,18 @@ angular.module('app',[])
         if(  $scope.cartList.length==0){
             $scope.cartState.isEmpty=true;
         }
-    }
+    };
     //select all
     $scope.allCheck=function () {
-
         for(i = 0; i<$scope.cartList.length;i++){
-            // console.log($scope.cartList[i].checked);
             if($scope.cartList[i].checked!=true){
                 return false;
             }
-
         }
         return true;
-    }
+    };
     //  select item
     $scope.itemSelect=function($index){
-        // console.log($scope.cartList[$index].checked);
         // if($scope.cartList[$index].checked==true){
         //     $scope.cartList[$index].checked=false;
         //     console.log($scope.cartList[$index].checked);
@@ -99,26 +106,26 @@ angular.module('app',[])
         // }
         console.log(!$scope.cartList[$index].checked);
         return !$scope.cartList[$index].checked;
-    }
+    };
     //Select all
     $scope.selectAll=function(target){
-        if(target.checked==false){
-            for(i = 0; i<$scope.cartList.length;i++){
-               $scope.cartList[i].checked=false;
-               console.log(  $scope.cartList[i].checked);
-            }
-
-            return false;
-        }
-        if(target.checked==true){
-            for(i = 0; i<$scope.cartList.length;i++){
-                $scope.cartList[i].checked=true;
-                console.log(  $scope.cartList[i].checked);
-
-            }
-            return true;
-        }
-        // console.log(target.checked);
+        // if(target.checked==false){
+        //     for(i = 0; i<$scope.cartList.length;i++){
+        //        $scope.cartList[i].checked=false;
+        //        console.log(  $scope.cartList[i].checked);
+        //     }
+        //
+        // }
+        // if(target.checked==true){
+        //     for(i = 0; i<$scope.cartList.length;i++){
+        //         $scope.cartList[i].checked=true;
+        //         console.log(  $scope.cartList[i].checked);
+        //
+        //     }
+        // }
+        $scope.cartList.map(function (item) {
+            item.checked=target.checked;
+        });
     }
 
-})
+});
